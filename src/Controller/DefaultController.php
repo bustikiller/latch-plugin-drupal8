@@ -76,18 +76,14 @@ class DefaultController extends ControllerBase {
 
 	    // If something goes wrong, disable Latch temporary or permanently to prevent blocking the user
 	    if (empty($statusResponse) || (empty($responseData) && empty($responseError))) {
-	        \Drupal::messenger()->addStatus('[WARN] Access allowed to prevent DoS');
 	    } else {
 	        if (!empty($responseError) && $responseError->getCode() == 201) {
 	            // If the account is externally unpaired, apply the changes in database            
-	            \Drupal::messenger()->addStatus('[WARN] Debug scenario 1');
 	            \Drupal::database()->delete('latch')->condition('uid', $account->id());
 	        }
 	        if (!empty($responseData) && DefaultController::isStatusOn($responseData, $appid)) {
 	            // LOGIN OK + STATUS = on
-	            \Drupal::messenger()->addStatus('[WARN] Debug scenario 2');
 	            if (DefaultController::isSecondFactorEnabled($responseData, $appid)) {
-	                \Drupal::messenger()->addStatus('[WARN] Debug scenario 3');
 	                $otp = $responseData->{"operations"}->{$appid}->{"two_factor"}->{"token"};
 	                DefaultController::storeSecondFactor($otp, $account->id());
 	                session_destroy(); // The user cannot be authenticated yet
@@ -97,7 +93,6 @@ class DefaultController extends ControllerBase {
 	        } else {
 	            // LOGIN OK + STATUS = off
 	            // TODO: Show same error of invalid credentials
-	            \Drupal::messenger()->addStatus('[WARN] Debug scenario 4');
 	            user_logout();
 	            $redirect = new RedirectResponse('/user/login');
 	            $redirect->send();
@@ -131,6 +126,8 @@ class DefaultController extends ControllerBase {
 	    if ($_POST['latch_otp'] != $storedToken) {
 	    	// TODO: Show same error of invalid credentials
 	        user_logout();
+			$redirect = new RedirectResponse('/user/login');
+	        $redirect->send();
 	    }
 	}
 
