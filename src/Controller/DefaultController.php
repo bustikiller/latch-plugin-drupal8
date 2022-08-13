@@ -14,7 +14,7 @@ use Drupal\latch\LatchApp as Latch;
 class DefaultController extends ControllerBase {
 
 	public function getLatchId($uid) {
-	    $query = db_query("SELECT * FROM {latch} WHERE uid=:uid", array(':uid' => $uid));
+	    $query = \Drupal::database().query("SELECT * FROM {latch} WHERE uid=:uid", array(':uid' => $uid));
 	    $result = $query->fetchObject();
 	    return ($result) ? $result->latch_account : NULL;
 	}
@@ -157,7 +157,7 @@ class DefaultController extends ControllerBase {
 	}
 
 	public function retrieveSecondFactor($uid) {
-	    $query = db_query("SELECT * FROM {latch} WHERE uid=:uid", array(':uid' => $uid));
+	    $query = \Drupal::database().query("SELECT * FROM {latch} WHERE uid=:uid", array(':uid' => $uid));
 	    $userLatchData = $query->fetchObject();
 	    return ($userLatchData) ? $userLatchData->two_factor : NULL;
 	}
