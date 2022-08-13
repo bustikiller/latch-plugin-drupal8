@@ -25,7 +25,8 @@ class pairForm extends FormBase {
   /** 
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, AccountInterface $user = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, $user = NULL) {
+    \Drupal::messenger()->addStatus("Received parameter $user");
     $config = $this->config('latch.settings');
     $uid = \Drupal::currentUser()->id();
     if ($config->get('latch_appid') == '' | $config->get('latch_secret') == '') {
