@@ -54,7 +54,7 @@ class DefaultController extends ControllerBase {
 		$api = new Latch($appid, $secret);
 		$pairResponse = $api->unpair($latch_account);
 
-		db_delete('latch')->condition('uid', $uid)->execute();
+		\Drupal::database()->delete('latch')->condition('uid', $uid)->execute();
 		\Drupal::messenger()->addStatus('Unpairing success');
 	}
 
@@ -80,7 +80,7 @@ class DefaultController extends ControllerBase {
 	    } else {
 	        if (!empty($responseError) && $responseError->getCode() == 201) {
 	            // If the account is externally unpaired, apply the changes in database            
-	            db_delete('latch')->condition('uid', $account->id());
+	            \Drupal::database()->delete('latch')->condition('uid', $account->id());
 	        }
 	        if (!empty($responseData) && DefaultController::isStatusOn($responseData, $appid)) {
 	            // LOGIN OK + STATUS = on
