@@ -47,7 +47,7 @@ class pairForm extends FormBase {
       } else {
           // Latch info
           $form['latch_info'] = array(
-            '#markup' => '<p>Generate and insert token to pair your account</p>'
+            '#markup' => '<p>'.t('Generate and insert token to pair your account').'</p>'
           );
 
           // Page title field
