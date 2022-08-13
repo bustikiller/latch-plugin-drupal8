@@ -9,7 +9,6 @@ namespace Drupal\latch\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\latch\Controller\DefaultController;
-use Drupal\Core\Session\AccountInterface;
 
 /**
  * Configure latch settings for this site.
@@ -25,10 +24,10 @@ class pairForm extends FormBase {
   /** 
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $user = NULL) {
-    \Drupal::messenger()->addStatus("Received parameter $user");
+  public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('latch.settings');
-    $uid = $user || \Drupal::currentUser()->id();
+    $uid = \Drupal::currentUser()->id();
+
     if ($config->get('latch_appid') == '' | $config->get('latch_secret') == '') {
       $form['insert_config'] = array(
         '#markup' => '<p>' . t('Please insert your <a href=":latch-settings">Application ID and Secret</a> before to pair with Latch', [':latch-settings' => \Drupal::url('latch.settings')]) . '</p>',
