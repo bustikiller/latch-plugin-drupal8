@@ -76,7 +76,7 @@ class DefaultController extends ControllerBase {
 
 	    // If something goes wrong, disable Latch temporary or permanently to prevent blocking the user
 	    if (empty($statusResponse) || (empty($responseData) && empty($responseError))) {
-	        // Login success to prevent DoS to the user         
+	        \Drupal::messenger()->addStatus('[WARN] Access allowed to prevent DoS');
 	    } else {
 	        if (!empty($responseError) && $responseError->getCode() == 201) {
 	            // If the account is externally unpaired, apply the changes in database            
