@@ -7,7 +7,7 @@ namespace Drupal\latch\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\latch\LatchApp as Latch;
-use Drupal\Core\Session\AnonymousUserSession;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 /**
  * Default controller for the latch module.
  */
