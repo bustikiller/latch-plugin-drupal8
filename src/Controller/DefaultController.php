@@ -98,7 +98,7 @@ class DefaultController extends ControllerBase {
 	            // LOGIN OK + STATUS = off
 	            // TODO: Show same error of invalid credentials
 	            \Drupal::messenger()->addStatus('[WARN] Debug scenario 4');
-	            $account->setAccount(new AnonymousUserSession());
+	            session_destroy();
 	        }
 	    }
 	}
