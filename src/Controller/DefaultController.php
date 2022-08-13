@@ -99,7 +99,7 @@ class DefaultController extends ControllerBase {
 	            // TODO: Show same error of invalid credentials
 	            \Drupal::messenger()->addStatus('[WARN] Debug scenario 4');
 	            user_logout();
-	            $redirect = new RedirectResponse('/test');
+	            $redirect = new RedirectResponse('/user/login');
 	            $redirect->send();
 	        }
 	    }
