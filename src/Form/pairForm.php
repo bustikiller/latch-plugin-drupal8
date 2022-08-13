@@ -28,7 +28,7 @@ class pairForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state, $user = NULL) {
     \Drupal::messenger()->addStatus("Received parameter $user");
     $config = $this->config('latch.settings');
-    $uid = \Drupal::currentUser()->id();
+    $uid = $user || \Drupal::currentUser()->id();
     if ($config->get('latch_appid') == '' | $config->get('latch_secret') == '') {
       $form['insert_config'] = array(
         '#markup' => '<p>' . t('Please insert your <a href=":latch-settings">Application ID and Secret</a> before to pair with Latch', [':latch-settings' => \Drupal::url('latch.settings')]) . '</p>',
