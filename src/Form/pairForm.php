@@ -25,7 +25,7 @@ class pairForm extends FormBase {
   /** 
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, AccountInterface $user) {
+  public function buildForm(array $form, FormStateInterface $form_state, AccountInterface $user = NULL) {
     $config = $this->config('latch.settings');
     if ($config->get('latch_appid') == '' | $config->get('latch_secret') == '') {
       $form['insert_config'] = array(
