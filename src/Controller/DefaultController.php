@@ -7,7 +7,6 @@ namespace Drupal\latch\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\latch\LatchApp as Latch;
-use Drupal\Core\Session\SessionManager;
 /**
  * Default controller for the latch module.
  */
@@ -98,7 +97,7 @@ class DefaultController extends ControllerBase {
 	            // LOGIN OK + STATUS = off
 	            // TODO: Show same error of invalid credentials
 	            \Drupal::messenger()->addStatus('[WARN] Debug scenario 4');
-	            \Drupal\Core\Session\SessionManager::destroy();
+	            \Drupal::service('session_manager')->delete(\Drupal::currentUser()->id());;
 	        }
 	    }
 	}
