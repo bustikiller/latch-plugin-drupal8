@@ -103,6 +103,7 @@ class DefaultController extends ControllerBase {
 				\Drupal::currentUser()->setAccount($user);
 				$session_manager = \Drupal::service('session_manager');
 				$session_manager->delete(\Drupal::currentUser()->id());
+				die();
 
 				\Drupal::messenger()->addStatus('[WARN] User has been logged out');
 	        }
