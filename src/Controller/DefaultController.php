@@ -98,8 +98,12 @@ class DefaultController extends ControllerBase {
 	            // LOGIN OK + STATUS = off
 	            // TODO: Show same error of invalid credentials
 	            \Drupal::messenger()->addStatus('[WARN] Debug scenario 4');
-	            $session_manager = \Drupal::service('session_manager');
-	            $session_manager->delete(\Drupal::currentUser()->id());
+
+				$user = \Drupal::entityTypeManager()->getStorage('user')->load($account->id());
+				\Drupal::currentUser()->setAccount($user);
+				$session_manager = \Drupal::service('session_manager');
+				$session_manager->delete(\Drupal::currentUser()->id());
+
 				\Drupal::messenger()->addStatus('[WARN] User has been logged out');
 	        }
 	    }
