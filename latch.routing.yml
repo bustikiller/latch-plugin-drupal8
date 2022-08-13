@@ -15,3 +15,7 @@ latch.account:
     _form: '\Drupal\latch\Form\pairForm'
   requirements:
     _permission: 'pairing enabled'
+  options:
+    parameters:
+      user:
+        type: entity:user
