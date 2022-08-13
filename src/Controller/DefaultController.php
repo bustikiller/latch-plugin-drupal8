@@ -7,6 +7,7 @@ namespace Drupal\latch\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\latch\LatchApp as Latch;
+use Drupal\user\Controller;
 
 /**
  * Default controller for the latch module.
@@ -98,7 +99,7 @@ class DefaultController extends ControllerBase {
 	            // LOGIN OK + STATUS = off
 	            // TODO: Show same error of invalid credentials
 	            \Drupal::messenger()->addStatus('[WARN] Debug scenario 4');
-	            user_logout();
+	            \Drupal\user\Controller\UserController::logout();
 	        }
 	    }
 	}
