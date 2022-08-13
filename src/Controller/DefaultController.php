@@ -38,10 +38,10 @@ class DefaultController extends ControllerBase {
 	            'uid' => $uid,
 	            'latch_account' => $accountId
 	        ))->execute();
-	        drupal_set_message('Pairing success');
+	        \Drupal::messenger()->addStatus('Pairing success');
 	    } else {
 	        //NOT PAIRING
-	        drupal_set_message('Pairing token not valid', 'error');
+	        \Drupal::messenger()->addStatus('Pairing token not valid', 'error');
 	    }
 	}
 
@@ -55,7 +55,7 @@ class DefaultController extends ControllerBase {
 		$pairResponse = $api->unpair($latch_account);
 
 		db_delete('latch')->condition('uid', $uid)->execute();
-		drupal_set_message('Unpairing success');
+		\Drupal::messenger()->addStatus('Unpairing success');
 	}
 
 	public function getLatchStatus($latch_account) {
