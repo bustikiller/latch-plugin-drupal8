@@ -36,7 +36,7 @@ class pairForm extends FormBase {
       if (DefaultController::getLatchId($uid)){
           // Latch info
           $form['latch_info'] = array(
-            '#markup' => '<p>User already paired</p>'
+            '#markup' => '<p>'.t(User already paired).'</p>'
           );
           //Unpair
           $form['latch_pair'] = array(
