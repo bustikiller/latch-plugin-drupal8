@@ -170,8 +170,8 @@ class DefaultController extends ControllerBase {
 	    db_update('latch')->fields(array('two_factor' => NULL))->condition('uid', $uid)->execute();
 	}
 
-	public function pairingFormAccess(AccountInterface $account, $targetUser) {
-		\Drupal::messenger()->addStatus('Checking if user '.$account->id().' has access to pair account of user '.$targetUser);
+	public function pairingFormAccess(AccountInterface $account, $user = NULL) {
+		\Drupal::messenger()->addStatus('Checking if user '.$account->id().' has access to pair account of user '.$user);
 		return AccessResult::allowedIf(true);
 	}
 }
