@@ -27,12 +27,13 @@ class pairForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state, AccountInterface $user = NULL) {
     $config = $this->config('latch.settings');
+    $uid = \Drupal::currentUser()->id();
     if ($config->get('latch_appid') == '' | $config->get('latch_secret') == '') {
       $form['insert_config'] = array(
         '#markup' => '<p>' . t('Please insert your <a href=":latch-settings">Application ID and Secret</a> before to pair with Latch', [':latch-settings' => \Drupal::url('latch.settings')]) . '</p>',
       );
     } else {
-      if (DefaultController::getLatchId($user->id())){
+      if (DefaultController::getLatchId($uid)){
           // Latch info
           $form['latch_info'] = array(
             '#markup' => '<p>'.t('User already paired').'</p>'
