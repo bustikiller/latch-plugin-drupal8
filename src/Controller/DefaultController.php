@@ -173,6 +173,6 @@ class DefaultController extends ControllerBase {
 
 	public function pairingFormAccess(AccountInterface $account, $user = NULL) {
 		\Drupal::messenger()->addStatus('Checking if user '.$account->id().' has access to pair account of user '.$user);
-		return AccessResult::allowedIf(true);
+		return AccessResult::allowedIf($account->id() == $user);
 	}
 }
