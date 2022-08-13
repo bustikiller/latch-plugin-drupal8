@@ -34,7 +34,7 @@ class DefaultController extends ControllerBase {
 	    }
 	    if (!empty($accountId)) {
 	        //OK PAIRING
-	        \Drupal::database()->insert('latch', array(
+	        db_insert('latch')->fields(array(
 	            'uid' => $uid,
 	            'latch_account' => $accountId
 	        ))->execute();
