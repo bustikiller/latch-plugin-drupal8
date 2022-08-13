@@ -15,6 +15,7 @@ latch.account:
     _form: '\Drupal\latch\Form\pairForm'
   requirements:
     _permission: 'pairing enabled'
+    _custom_access: '\Drupal\latch\Controller\DefaultController::pairingFormAccess'
   options:
     parameters:
       user:
