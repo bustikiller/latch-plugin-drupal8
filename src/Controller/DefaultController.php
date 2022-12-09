@@ -15,13 +15,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class DefaultController extends ControllerBase {
 
-	public function getLatchId($uid) {
+	public static function getLatchId($uid) {
 	    $query = \Drupal::database()->query("SELECT * FROM {latch} WHERE uid=:uid", array(':uid' => $uid));
 	    $result = $query->fetchObject();
 	    return ($result) ? $result->latch_account : NULL;
 	}
 
-	public function pairAccount($token) {
+	public static function pairAccount($token) {
 		$config = \Drupal::config('latch.settings');
 		$appid = $config->get('latch_appid');
 		$secret = $config->get('latch_secret');
@@ -47,7 +47,7 @@ class DefaultController extends ControllerBase {
 	    }
 	}
 
-	public function unpairAccount($latch_account) {
+	public static function unpairAccount($latch_account) {
 		$config = \Drupal::config('latch.settings');
 		$appid = $config->get('latch_appid');
 		$secret = $config->get('latch_secret');
@@ -60,7 +60,7 @@ class DefaultController extends ControllerBase {
 		\Drupal::messenger()->addStatus('Unpairing success');
 	}
 
-	public function getLatchStatus($latch_account) {
+	public static function getLatchStatus($latch_account) {
 	    $appid = \Drupal::config('latch.settings')->get('latch_appid');
 	    $secret = \Drupal::config('latch.settings')->get('latch_secret');
 	    if (!empty($appid) && !empty($secret)) {
@@ -71,7 +71,7 @@ class DefaultController extends ControllerBase {
 	    }
 	}
 
-	public function processStatusResponse($statusResponse, $account) {
+	public static function processStatusResponse($statusResponse, $account) {
 	    $appid = \Drupal::config('latch.settings')->get('latch_appid');
 	    $responseData = $statusResponse->getData();
 	    $responseError = $statusResponse->getError();
@@ -102,15 +102,15 @@ class DefaultController extends ControllerBase {
 	    }
 	}
 
-	public function isStatusOn($responseData, $appid) {
+	public static function isStatusOn($responseData, $appid) {
 	    return $responseData->{"operations"}->{$appid}->{"status"} === "on";
 	}
 
-	public function isSecondFactorEnabled($responseData, $appid) {
+	public static function isSecondFactorEnabled($responseData, $appid) {
 	    return property_exists($responseData->{"operations"}->{$appid}, "two_factor");
 	}
 
-	public function userProperlyLogged($account) {
+	public static function userProperlyLogged($account) {
 	    if (!empty($_POST['latch_otp'])) {
 	        DefaultController::checkSecondFactor($account);
 	    } else {
@@ -122,7 +122,7 @@ class DefaultController extends ControllerBase {
 	    }
 	}
 
-	public function checkSecondFactor($account) {
+	public static function checkSecondFactor($account) {
 	    $storedToken = DefaultController::retrieveSecondFactor($account->id());
 	    DefaultController::removeSecondFactor($account->id());
 	    if ($_POST['latch_otp'] != $storedToken) {
@@ -136,7 +136,7 @@ class DefaultController extends ControllerBase {
 /*
  * Inserts the rendered second factor form into an HTML document.
  */
-	public function buildHTML($htmlStructure) {
+	public static function buildHTML($htmlStructure) {
 	    global $base_url;
 	    $module_name = drupal_get_path('module', 'latch');
 		return '<html><head>'
@@ -157,21 +157,21 @@ class DefaultController extends ControllerBase {
 	            . '</div></body></html>';
 	}
 
-	public function storeSecondFactor($otp, $uid) {
+	public static function storeSecondFactor($otp, $uid) {
 	    db_update('latch')->fields(array('two_factor' => $otp))->condition('uid', $uid)->execute();
 	}
 
-	public function retrieveSecondFactor($uid) {
+	public static function retrieveSecondFactor($uid) {
 	    $query = \Drupal::database()->query("SELECT * FROM {latch} WHERE uid=:uid", array(':uid' => $uid));
 	    $userLatchData = $query->fetchObject();
 	    return ($userLatchData) ? $userLatchData->two_factor : NULL;
 	}
 
-	public function removeSecondFactor($uid) {
+	public static function removeSecondFactor($uid) {
 	    db_update('latch')->fields(array('two_factor' => NULL))->condition('uid', $uid)->execute();
 	}
 
-	public function pairingFormAccess(AccountInterface $account, $user = NULL) {
+	public static function pairingFormAccess(AccountInterface $account, $user = NULL) {
 		return AccessResult::allowedIf($account->id() == $user);
 	}
 }
