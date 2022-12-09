@@ -46,10 +46,10 @@ class LatchResponse {
 	public function __construct($jsonString) {
 		$json = json_decode($jsonString);
 		if(!is_null($json)) {
-			if (array_key_exists("data", $json)) {
+			if (property_exists($json, "data")) {
 				$this->data = $json->{"data"};
 			}
-			if (array_key_exists("error", $json)) {
+			if (property_exists($json, "error")) {
 				$this->error = new Error($json->{"error"});
 			} 
 		}
